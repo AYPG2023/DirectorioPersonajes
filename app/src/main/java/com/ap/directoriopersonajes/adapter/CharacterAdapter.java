@@ -66,6 +66,7 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.Char
     public static class CharacterViewHolder extends RecyclerView.ViewHolder {
 
         private final ImageView imageViewCharacter;
+        private final View layoutCharacterCardContent;
         private final TextView textViewCharacterName;
         private final TextView textViewCharacterSubtitle;
         private final TextView textViewCharacterKi;
@@ -73,6 +74,7 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.Char
 
         public CharacterViewHolder(@NonNull View itemView) {
             super(itemView);
+            layoutCharacterCardContent = itemView.findViewById(R.id.layoutCharacterCardContent);
             imageViewCharacter = itemView.findViewById(R.id.imageViewCharacter);
             textViewCharacterName = itemView.findViewById(R.id.textViewCharacterName);
             textViewCharacterSubtitle = itemView.findViewById(R.id.textViewCharacterSubtitle);
@@ -121,7 +123,7 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.Char
                     .fitCenter()
                     .into(imageViewCharacter);
 
-            itemView.setOnClickListener(view -> {
+            layoutCharacterCardContent.setOnClickListener(view -> {
                 if (onCharacterClickListener != null && character != null) {
                     onCharacterClickListener.onCharacterClick(character);
                 }

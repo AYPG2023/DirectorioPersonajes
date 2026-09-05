@@ -86,18 +86,23 @@
             android:paddingStart="16dp"
             android:paddingTop="20dp"
             android:paddingEnd="16dp"
-            android:paddingBottom="24dp"
+            android:paddingBottom="120dp"
             android:visibility="gone"
             tools:listitem="@layout/item_character" />
 
         <LinearLayout
             android:id="@+id/layoutBottomLoading"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginBottom="16dp"
             android:background="@drawable/bg_bottom_loading"
             android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingStart="14dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="14dp"
+            android:paddingBottom="10dp"
             android:visibility="gone">
 
             <ProgressBar
@@ -106,6 +111,20 @@
                 android:layout_height="28dp"
                 android:indeterminate="true" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonLoadMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="32dp"
+            android:backgroundTint="@color/header_blue"
+            android:minHeight="48dp"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:text="@string/load_more_button"
+            android:textColor="@color/white"
+            android:visibility="gone" />
 
         <ProgressBar
             android:id="@+id/progressBarCharacters"

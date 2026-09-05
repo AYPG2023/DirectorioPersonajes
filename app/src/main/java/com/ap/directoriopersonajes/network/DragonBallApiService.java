@@ -9,5 +9,8 @@ import retrofit2.http.Query;
 public interface DragonBallApiService {
 
     @GET("characters")
-    Call<CharacterResponseDto> getCharacters(@Query("page") int page);
+    Call<CharacterResponseDto> getCharacters(
+            @Query("page") int page,
+            @Query("limit") int limit
+    );
 }

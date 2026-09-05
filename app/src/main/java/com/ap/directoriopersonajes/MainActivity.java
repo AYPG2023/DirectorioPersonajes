@@ -1,6 +1,10 @@
 package com.ap.directoriopersonajes;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,7 +34,7 @@ public class MainActivity extends Activity {
 
     private static final String TAG = "MainActivity";
     private static final int FIRST_PAGE = 1;
-    private static final int PAGINATION_THRESHOLD = 3;
+    private static final int PAGE_SIZE = 10;
 
     private final List<CharacterDto> characterList = new ArrayList<>();
 
@@ -44,6 +48,7 @@ public class MainActivity extends Activity {
     private TextView textViewLoadedCount;
     private TextView textViewStateMessage;
     private Button buttonRetry;
+    private Button buttonLoadMore;
     private Call<CharacterResponseDto> activeCall;
 
     private int currentPage = 0;
@@ -70,29 +75,39 @@ public class MainActivity extends Activity {
         textViewLoadedCount = findViewById(R.id.textViewLoadedCount);
         textViewStateMessage = findViewById(R.id.textViewStateMessage);
         buttonRetry = findViewById(R.id.buttonRetry);
+        buttonLoadMore = findViewById(R.id.buttonLoadMore);
         updateLoadedCount();
     }
 
     private void setupRecyclerView() {
         characterAdapter = new CharacterAdapter(character -> {
-            String name = getValueOrDefault(character.getName(), getString(R.string.unknown_character));
-            showToast(getString(R.string.selected_character_format, name));
+            openCharacterDetail(character);
         });
 
         layoutManager = new LinearLayoutManager(this);
         recyclerViewCharacters.setLayoutManager(layoutManager);
         recyclerViewCharacters.setAdapter(characterAdapter);
-        recyclerViewCharacters.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0 && shouldLoadNextPage()) {
-                    loadCharacters(currentPage + 1);
-                }
-            }
-        });
 
         buttonRetry.setOnClickListener(view -> retryInitialLoad());
+        buttonLoadMore.setOnClickListener(view -> loadNextPage());
+    }
+
+    private void openCharacterDetail(CharacterDto character) {
+        if (character == null) {
+            return;
+        }
+
+        startActivity(CharacterDetailActivity.createIntent(
+                this,
+                character.getName(),
+                character.getKi(),
+                character.getMaxKi(),
+                character.getRace(),
+                character.getGender(),
+                character.getDescription(),
+                character.getImage(),
+                character.getAffiliation()
+        ));
     }
 
     private void loadCharacters() {
@@ -104,6 +119,11 @@ public class MainActivity extends Activity {
             return;
         }
 
+        if (!hasInternetConnection()) {
+            handleNoInternetConnection(page);
+            return;
+        }
+
         isLoading = true;
         if (page == FIRST_PAGE) {
             showInitialLoadingState();
@@ -111,7 +131,7 @@ public class MainActivity extends Activity {
             showNextPageLoadingState();
         }
 
-        activeCall = apiService.getCharacters(page);
+        activeCall = apiService.getCharacters(page, PAGE_SIZE);
         activeCall.enqueue(new Callback<CharacterResponseDto>() {
             @Override
             public void onResponse(Call<CharacterResponseDto> call, Response<CharacterResponseDto> response) {
@@ -162,15 +182,11 @@ public class MainActivity extends Activity {
         });
     }
 
-    private boolean shouldLoadNextPage() {
-        int visibleItemCount = layoutManager.getChildCount();
-        int totalItemCount = layoutManager.getItemCount();
-        int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
-
-        return !isLoading
-                && !isLastPage
-                && totalItemCount > 0
-                && visibleItemCount + firstVisibleItemPosition >= totalItemCount - PAGINATION_THRESHOLD;
+    private void loadNextPage() {
+        if (isLoading || isLastPage) {
+            return;
+        }
+        loadCharacters(currentPage + 1);
     }
 
     private void updatePaginationState(CharacterResponseDto responseBody, int requestedPage) {
@@ -237,11 +253,23 @@ public class MainActivity extends Activity {
         showToast(getString(R.string.next_page_error_message));
     }
 
+    private void handleNoInternetConnection(int page) {
+        Log.w(TAG, getString(R.string.no_internet_message));
+        if (page == FIRST_PAGE && characterList.isEmpty()) {
+            showErrorState(getString(R.string.no_internet_message), true);
+            return;
+        }
+
+        showContentState();
+        showToast(getString(R.string.next_page_error_message));
+    }
+
     private void retryInitialLoad() {
         if (isLoading) {
             return;
         }
 
+        showToast(getString(R.string.retrying_message));
         currentPage = 0;
         totalPages = FIRST_PAGE;
         isLastPage = false;
@@ -254,6 +282,7 @@ public class MainActivity extends Activity {
     private void showInitialLoadingState() {
         progressBarCharacters.setVisibility(View.VISIBLE);
         layoutBottomLoading.setVisibility(View.GONE);
+        buttonLoadMore.setVisibility(View.GONE);
         recyclerViewCharacters.setVisibility(View.GONE);
         layoutStateMessage.setVisibility(View.GONE);
         buttonRetry.setVisibility(View.GONE);
@@ -262,6 +291,7 @@ public class MainActivity extends Activity {
     private void showNextPageLoadingState() {
         progressBarCharacters.setVisibility(View.GONE);
         layoutBottomLoading.setVisibility(View.VISIBLE);
+        buttonLoadMore.setVisibility(View.GONE);
         recyclerViewCharacters.setVisibility(View.VISIBLE);
         layoutStateMessage.setVisibility(View.GONE);
         buttonRetry.setVisibility(View.GONE);
@@ -270,6 +300,7 @@ public class MainActivity extends Activity {
     private void hideLoadingIndicators() {
         progressBarCharacters.setVisibility(View.GONE);
         layoutBottomLoading.setVisibility(View.GONE);
+        buttonLoadMore.setVisibility(View.GONE);
     }
 
     private void showContentState() {
@@ -278,11 +309,13 @@ public class MainActivity extends Activity {
         recyclerViewCharacters.setVisibility(View.VISIBLE);
         layoutStateMessage.setVisibility(View.GONE);
         buttonRetry.setVisibility(View.GONE);
+        buttonLoadMore.setVisibility(isLastPage ? View.GONE : View.VISIBLE);
     }
 
     private void showEmptyState() {
         progressBarCharacters.setVisibility(View.GONE);
         layoutBottomLoading.setVisibility(View.GONE);
+        buttonLoadMore.setVisibility(View.GONE);
         recyclerViewCharacters.setVisibility(View.GONE);
         textViewStateMessage.setText(R.string.empty_characters_message);
         layoutStateMessage.setVisibility(View.VISIBLE);
@@ -292,6 +325,7 @@ public class MainActivity extends Activity {
     private void showErrorState(String message, boolean canRetry) {
         progressBarCharacters.setVisibility(View.GONE);
         layoutBottomLoading.setVisibility(View.GONE);
+        buttonLoadMore.setVisibility(View.GONE);
         recyclerViewCharacters.setVisibility(View.GONE);
         textViewStateMessage.setText(message);
         layoutStateMessage.setVisibility(View.VISIBLE);
@@ -315,6 +349,24 @@ public class MainActivity extends Activity {
 
     private boolean isActivityInactive() {
         return isFinishing() || isDestroyed();
+    }
+
+    private boolean hasInternetConnection() {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager == null) {
+            return false;
+        }
+
+        Network activeNetwork = connectivityManager.getActiveNetwork();
+        if (activeNetwork == null) {
+            return false;
+        }
+
+        NetworkCapabilities capabilities = connectivityManager.getNetworkCapabilities(activeNetwork);
+        return capabilities != null
+                && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
     }
 
     @Override

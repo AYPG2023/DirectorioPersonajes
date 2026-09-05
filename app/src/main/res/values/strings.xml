@@ -3,6 +3,8 @@
     <string name="screen_title">Personajes</string>
     <string name="screen_subtitle">Explora el universo de Dragon Ball</string>
     <string name="loaded_characters_format">%1$d personajes cargados</string>
+    <string name="load_more_button">Cargar mas</string>
+    <string name="page_loaded_format">Pagina %1$d de %2$d</string>
     <string name="unknown_race">Raza desconocida</string>
     <string name="unknown_gender">Genero desconocido</string>
     <string name="unavailable_ki">Ki no disponible</string>
@@ -10,11 +12,17 @@
     <string name="character_subtitle_format">%1$s &#8226; %2$s</string>
     <string name="ki_format">Ki: %1$s</string>
     <string name="affiliation_format">Afiliacion: %1$s</string>
+    <string name="max_ki_format">Ki maximo: %1$s</string>
+    <string name="description_title">Descripcion</string>
+    <string name="unavailable_description">Descripcion no disponible</string>
+    <string name="back_button_content_description">Volver</string>
     <string name="characters_received_format">Personajes recibidos: %1$d</string>
     <string name="next_page_error_message">No se pudo cargar la siguiente pagina</string>
     <string name="http_error_format">Error al obtener personajes. Codigo HTTP: %1$d</string>
     <string name="empty_characters_message">No se encontraron personajes</string>
     <string name="connection_error_message">No fue posible conectar con la API</string>
+    <string name="no_internet_message">Sin conexion a Internet. Revisa Wi-Fi o datos moviles e intenta de nuevo.</string>
+    <string name="retrying_message">Reintentando conexion...</string>
     <string name="retry_button">Reintentar</string>
     <string name="selected_character_format">Seleccionaste a %1$s</string>
     <string name="character_image_content_description">Imagen de %1$s</string>
