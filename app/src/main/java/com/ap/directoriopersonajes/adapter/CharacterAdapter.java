@@ -19,6 +19,11 @@ import java.util.List;
 public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder> {
 
     private final List<CharacterDto> characters = new ArrayList<>();
+    private final OnCharacterClickListener onCharacterClickListener;
+
+    public CharacterAdapter(OnCharacterClickListener onCharacterClickListener) {
+        this.onCharacterClickListener = onCharacterClickListener;
+    }
 
     @NonNull
     @Override
@@ -31,7 +36,7 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.Char
     @Override
     public void onBindViewHolder(@NonNull CharacterViewHolder holder, int position) {
         CharacterDto character = characters.get(position);
-        holder.bind(character);
+        holder.bind(character, onCharacterClickListener);
     }
 
     @Override
@@ -45,6 +50,17 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.Char
             characters.addAll(newCharacters);
         }
         notifyDataSetChanged();
+    }
+
+    public void addCharacters(List<CharacterDto> newCharacters) {
+        if (newCharacters != null) {
+            characters.addAll(newCharacters);
+            notifyDataSetChanged();
+        }
+    }
+
+    public interface OnCharacterClickListener {
+        void onCharacterClick(CharacterDto character);
     }
 
     public static class CharacterViewHolder extends RecyclerView.ViewHolder {
@@ -62,7 +78,7 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.Char
             textViewCharacterKi = itemView.findViewById(R.id.textViewCharacterKi);
         }
 
-        public void bind(CharacterDto character) {
+        public void bind(CharacterDto character, OnCharacterClickListener onCharacterClickListener) {
             String name = getValueOrDefault(
                     character != null ? character.getName() : null,
                     itemView.getContext().getString(R.string.unknown_character)
@@ -95,6 +111,12 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.Char
                     .error(R.drawable.ic_character_error)
                     .fitCenter()
                     .into(imageViewCharacter);
+
+            itemView.setOnClickListener(view -> {
+                if (onCharacterClickListener != null && character != null) {
+                    onCharacterClickListener.onCharacterClick(character);
+                }
+            });
         }
 
         private String getValueOrDefault(String value, String defaultValue) {

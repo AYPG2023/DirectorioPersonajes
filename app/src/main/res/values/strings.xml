@@ -8,9 +8,12 @@
     <string name="character_subtitle_format">%1$s &#8226; %2$s</string>
     <string name="ki_format">Ki: %1$s</string>
     <string name="characters_received_format">Personajes recibidos: %1$d</string>
+    <string name="next_page_error_message">No se pudo cargar la siguiente pagina</string>
     <string name="http_error_format">Error al obtener personajes. Codigo HTTP: %1$d</string>
     <string name="empty_characters_message">No se encontraron personajes</string>
     <string name="connection_error_message">No fue posible conectar con la API</string>
+    <string name="retry_button">Reintentar</string>
+    <string name="selected_character_format">Seleccionaste a %1$s</string>
     <string name="character_image_content_description">Imagen de %1$s</string>
     <string name="unknown_character">Personaje desconocido</string>
     <string name="character_arrow">&gt;</string>
