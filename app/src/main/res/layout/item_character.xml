@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardBackgroundColor="@color/card_background"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="132dp"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <ImageView
+            android:id="@+id/imageViewCharacter"
+            android:layout_width="84dp"
+            android:layout_height="108dp"
+            android:adjustViewBounds="false"
+            android:background="@drawable/bg_character_image"
+            android:contentDescription="@string/unknown_character"
+            android:padding="6dp"
+            android:scaleType="fitCenter"
+            tools:src="@drawable/ic_character_placeholder" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewCharacterName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/primary_text"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="Goku" />
+
+            <TextView
+                android:id="@+id/textViewCharacterSubtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+            android:textColor="@color/secondary_text"
+            android:textSize="14sp"
+            tools:text="Saiyan • Male" />
+
+            <TextView
+                android:id="@+id/textViewCharacterKi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/dragon_orange"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="Ki: 60.000.000" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textViewCharacterArrow"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="8dp"
+            android:contentDescription="@string/character_details_indicator"
+            android:gravity="center"
+            android:text="@string/character_arrow"
+            android:textColor="@color/dragon_orange"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

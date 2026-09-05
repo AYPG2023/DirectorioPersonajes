@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">DirectorioPersonajes</string>
+    <string name="screen_title">Directorio de personajes</string>
+    <string name="screen_subtitle">Explora el universo de Dragon Ball</string>
+    <string name="unknown_race">Raza desconocida</string>
+    <string name="unknown_gender">Genero desconocido</string>
+    <string name="unavailable_ki">Ki no disponible</string>
+    <string name="character_subtitle_format">%1$s &#8226; %2$s</string>
+    <string name="ki_format">Ki: %1$s</string>
+    <string name="characters_received_format">Personajes recibidos: %1$d</string>
+    <string name="http_error_format">Error al obtener personajes. Codigo HTTP: %1$d</string>
+    <string name="empty_characters_message">No se encontraron personajes</string>
+    <string name="connection_error_message">No fue posible conectar con la API</string>
+    <string name="character_image_content_description">Imagen de %1$s</string>
+    <string name="unknown_character">Personaje desconocido</string>
+    <string name="character_arrow">&gt;</string>
+    <string name="character_details_indicator">Ver detalle</string>
 </resources>
