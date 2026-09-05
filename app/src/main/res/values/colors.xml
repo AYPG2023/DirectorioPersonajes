@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="app_background">#F2F4F7</color>
-    <color name="header_background">#20242C</color>
+    <color name="app_background">#F3F6FA</color>
+    <color name="header_blue">#1565C0</color>
+    <color name="header_blue_dark">#0D47A1</color>
+    <color name="header_blue_light">#42A5F5</color>
+    <color name="header_decoration">#33FFFFFF</color>
     <color name="dragon_orange">#F57C00</color>
-    <color name="dragon_orange_light">#FFE0B2</color>
+    <color name="dragon_orange_dark">#E65100</color>
+    <color name="dragon_orange_light">#FFF3E0</color>
+    <color name="image_background">#E3F2FD</color>
     <color name="card_background">#FFFFFFFF</color>
     <color name="primary_text">#202124</color>
     <color name="secondary_text">#5F6368</color>

@@ -41,6 +41,7 @@ public class MainActivity extends Activity {
     private ProgressBar progressBarCharacters;
     private LinearLayout layoutBottomLoading;
     private LinearLayout layoutStateMessage;
+    private TextView textViewLoadedCount;
     private TextView textViewStateMessage;
     private Button buttonRetry;
     private Call<CharacterResponseDto> activeCall;
@@ -66,8 +67,10 @@ public class MainActivity extends Activity {
         progressBarCharacters = findViewById(R.id.progressBarCharacters);
         layoutBottomLoading = findViewById(R.id.layoutBottomLoading);
         layoutStateMessage = findViewById(R.id.layoutStateMessage);
+        textViewLoadedCount = findViewById(R.id.textViewLoadedCount);
         textViewStateMessage = findViewById(R.id.textViewStateMessage);
         buttonRetry = findViewById(R.id.buttonRetry);
+        updateLoadedCount();
     }
 
     private void setupRecyclerView() {
@@ -184,11 +187,13 @@ public class MainActivity extends Activity {
             characterList.clear();
             characterList.addAll(characters);
             characterAdapter.setCharacters(characterList);
+            updateLoadedCount();
             return;
         }
 
         characterList.addAll(characters);
         characterAdapter.addCharacters(characters);
+        updateLoadedCount();
     }
 
     private void logCharacters(List<CharacterDto> characters) {
@@ -242,6 +247,7 @@ public class MainActivity extends Activity {
         isLastPage = false;
         characterList.clear();
         characterAdapter.setCharacters(characterList);
+        updateLoadedCount();
         loadCharacters(FIRST_PAGE);
     }
 
@@ -294,6 +300,10 @@ public class MainActivity extends Activity {
 
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void updateLoadedCount() {
+        textViewLoadedCount.setText(getString(R.string.loaded_characters_format, characterList.size()));
     }
 
     private String getValueOrDefault(String value, String defaultValue) {

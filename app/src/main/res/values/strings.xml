@@ -1,12 +1,15 @@
 <resources>
     <string name="app_name">DirectorioPersonajes</string>
-    <string name="screen_title">Directorio de personajes</string>
+    <string name="screen_title">Personajes</string>
     <string name="screen_subtitle">Explora el universo de Dragon Ball</string>
+    <string name="loaded_characters_format">%1$d personajes cargados</string>
     <string name="unknown_race">Raza desconocida</string>
     <string name="unknown_gender">Genero desconocido</string>
     <string name="unavailable_ki">Ki no disponible</string>
+    <string name="unknown_affiliation">Sin afiliacion</string>
     <string name="character_subtitle_format">%1$s &#8226; %2$s</string>
     <string name="ki_format">Ki: %1$s</string>
+    <string name="affiliation_format">Afiliacion: %1$s</string>
     <string name="characters_received_format">Personajes recibidos: %1$d</string>
     <string name="next_page_error_message">No se pudo cargar la siguiente pagina</string>
     <string name="http_error_format">Error al obtener personajes. Codigo HTTP: %1$d</string>

@@ -69,6 +69,7 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.Char
         private final TextView textViewCharacterName;
         private final TextView textViewCharacterSubtitle;
         private final TextView textViewCharacterKi;
+        private final TextView textViewCharacterAffiliation;
 
         public CharacterViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -76,6 +77,7 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.Char
             textViewCharacterName = itemView.findViewById(R.id.textViewCharacterName);
             textViewCharacterSubtitle = itemView.findViewById(R.id.textViewCharacterSubtitle);
             textViewCharacterKi = itemView.findViewById(R.id.textViewCharacterKi);
+            textViewCharacterAffiliation = itemView.findViewById(R.id.textViewCharacterAffiliation);
         }
 
         public void bind(CharacterDto character, OnCharacterClickListener onCharacterClickListener) {
@@ -95,12 +97,19 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.Char
                     character != null ? character.getKi() : null,
                     itemView.getContext().getString(R.string.unavailable_ki)
             );
+            String affiliation = getValueOrDefault(
+                    character != null ? character.getAffiliation() : null,
+                    itemView.getContext().getString(R.string.unknown_affiliation)
+            );
 
             textViewCharacterName.setText(name);
             textViewCharacterSubtitle.setText(
                     itemView.getContext().getString(R.string.character_subtitle_format, race, gender)
             );
             textViewCharacterKi.setText(itemView.getContext().getString(R.string.ki_format, ki));
+            textViewCharacterAffiliation.setText(
+                    itemView.getContext().getString(R.string.affiliation_format, affiliation)
+            );
             imageViewCharacter.setContentDescription(
                     itemView.getContext().getString(R.string.character_image_content_description, name)
             );
